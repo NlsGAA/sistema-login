@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\Permissions;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -14,11 +17,96 @@ class UserController extends Controller
     ){
     }
 
-    public function index() {
+    public function index() 
+    {
         try {
-            $allUsers = $this->userService->index();
+            $users = User::with('permissions')->where('is_admin', false)->get();
+            
+            $allPermissions = Permissions::all();
+        
+            foreach ($users as $user) {
+                $userPermissions = $user->permissions->pluck('permission_name')->toArray();
+                
+                $user->permissions = $allPermissions->map(function($permission) use ($userPermissions) {
+                    return [
+                        'id'              => $permission->id,
+                        'permission_name' => $permission->permission_name,
+                        'has_permission'  => in_array(
+                            $permission->permission_name,
+                            $userPermissions
+                        )
+                    ];
+                });
+            }
+        } catch (\Exception $e) {
+            $err = [
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ];
 
-            $users = UserResource::collection($allUsers);
+            return view('permissions', compact(var_name: 'err'));
+        }
+        
+        return view('permissions', compact('users'));
+        
+    }
+
+    public function store(Request $request) 
+    {
+        try {
+            $payload = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
+
+            $this->userService->register($payload);
+        } catch (\Exception $e) {
+            $err = [
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ];
+
+            return view('register', compact(var_name: 'err'));
+        }
+
+        return view('login');
+    }
+
+    public function authenticate(Request $request)
+    {
+        try {
+            $payload = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required'
+            ]);
+
+            $this->userService->authenticate($payload['email'], $payload['password']);
+
+            $isUserAuthenticate = Auth::user()->exists;
+        } catch (\Exception $e) {
+            $err = [
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ];
+
+            return view('login', compact(var_name: 'err'));
+        }
+
+        if(!$isUserAuthenticate) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Usuário ou senha inválidos'
+            ], 400);
+        }
+
+        return redirect()->route('index');
+    }
+
+    public function delete($id)
+    {
+        try {
+            User::find($id)->delete();
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => 'error',
@@ -26,30 +114,38 @@ class UserController extends Controller
             ], 400);
         }
 
-        return view('permissions', compact('users'));
+        return redirect()->route('index');
     }
 
-    public function store(Request $request) {
+    public function togglePermissions(Request $request)
+    {
         try {
-            $payload = $request->validate([
-                'name' => 'required',
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
+            $hasPermissions = $request->exists('permissions');
 
-            $this->userService->register($payload);
+            if(!$hasPermissions) {
+                $err = [
+                    'status'  => 'error',
+                    'message' => 'Você precisa selecionar pelo menos uma permissão'
+                ];
+
+                return view('permissions', compact(var_name: 'err'));
+            }
+
+            $payload = $request->validate([
+                'user_id' => 'required',
+                'permissions' => 'required'
+            ]);
+            
+            $user = User::find($payload['user_id']);
+
+            $user->permissions()->sync($payload['permissions']);
         } catch (\Exception $e) {
             return response()->json([
-                'status'  => 'success',
+                'status'  => 'error',
                 'message' => $e->getMessage()
             ], 400);
         }
 
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Usuário cadastrado com sucesso!'
-        ], 201);
+        return redirect()->route('index');
     }
-
-    
 }

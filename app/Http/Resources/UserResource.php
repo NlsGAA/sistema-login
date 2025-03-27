@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Permissions;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,12 +15,13 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $permissions = Permissions::all();
+
+
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'permissions' => [
-                245, 5163, 2121
-            ]
+            'permissions' => $permissions
         ];
     }
 }

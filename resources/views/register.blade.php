@@ -13,6 +13,11 @@
             <div class="login-body">
                 <h1>Cadastre-se</h1>
                 <div class="input-group">
+                    @if(isset($err) && $err['message'])
+                        <div style="color: red">
+                            {{ $err['message'] }}
+                        </div>
+                    @endif
                     <form action="{{ route('register-user') }}" method="POST">
                         @csrf
                         <div class="input-w-label">

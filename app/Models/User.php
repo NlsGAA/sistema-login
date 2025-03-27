@@ -21,9 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
-    protected $table = 'user';
+    protected $table = 'users';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -46,5 +47,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(
+            Permissions::class,
+            'user_permissions',
+            'user_id',
+            'permission_id'
+        );
     }
 }

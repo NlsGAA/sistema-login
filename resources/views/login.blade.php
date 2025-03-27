@@ -13,17 +13,26 @@
             <div class="login-body">
                 <h1>Login</h1>
                 <div class="input-group">
-                    <div class="input-w-label">
-                        <label>Email:</label>
-                        <input type="text" class="form-control" placeholder="E-mail" />
-                    </div>
+                    @if(isset($err) && $err['message'])
+                        <div style="color: red">
+                            {{ $err['message'] }}
+                        </div>
+                    @endif
 
-                    <div class="input-w-label">
-                        <label>Senha:</label>
-                        <input type="password" class="form-control" placeholder="Senha"/>
-                    </div>
-
-                    <button class="btn-login">Acessar</button>
+                    <form action="{{ route('authenticate') }}" method="POST">
+                        @csrf
+                        <div class="input-w-label">
+                            <label>Email:</label>
+                            <input name="email" type="text" class="form-control" placeholder="E-mail" />
+                        </div>
+    
+                        <div class="input-w-label">
+                            <label>Senha:</label>
+                            <input name="password" type="password" class="form-control" placeholder="Senha"/>
+                        </div>
+    
+                        <button class="btn-login">Acessar</button>
+                    </form>
 
                     <span class="register-info">
                         Não possui uma conta?

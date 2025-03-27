@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\Contracts\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -19,18 +21,38 @@ class UserService
     public function register(array $userData) {
         $userAlreadyExists = $this->userRepository->findByEmail($userData['email']);
 
-        if($userAlreadyExists) {
-            Throw new \Exception('Email has already been registered');
+        if ($userAlreadyExists) {
+            throw new \Exception('Email has already been registered');
         }
+
+        $users = $this->userRepository->getAll();
+
+        $isFirstUser = $users->isEmpty();
+
+        $isAdmin = $isFirstUser ? true : false;
+
+        $passwordHashed = Hash::make($userData['password']);
 
         return $this->userRepository->create([
             'name' => $userData['name'],
             'email' => $userData['email'],
-            'password' => $userData['password']
+            'password' => $passwordHashed,
+            'is_admin' => $isAdmin,
         ]);
     }
 
     public function authenticate($email, $password) {
         
+        $emailExists = $this->userRepository->findByEmail($email);
+
+        if(!$emailExists) {
+            Throw new \DomainException('Credentials dont match');
+        }
+
+        if(!Hash::check($password, $emailExists->password)) {
+            Throw new \DomainException('Credentials dont match');
+        }
+
+        Auth::login($emailExists);
     }
 }
