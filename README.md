@@ -1,13 +1,13 @@
 # 🚀 Sistema de Gerenciamento de Permissões
 
-Este é um sistema de gerenciamento de permissões onde o **primeiro usuário criado** se torna o **administrador** do sistema, e os usuários subsequentes têm permissões limitadas. O administrador tem acesso completo ao sistema, podendo gerenciar usuários e permissões, enquanto os usuários comuns têm acesso restrito a determinadas funcionalidades.
+Este é um sistema de gerenciamento de permissões onde o **primeiro usuário criado** se torna o **administrador** do sistema, e os usuários subsequentes têm permissões limitadas. O administrador tem acesso para gerencias usuários, enquanto os usuários comuns têm acesso restrito a determinadas funcionalidades.
 
 ---
 
 ## ⭐ Funcionalidades
 
 ### **Administrador**
-O primeiro usuário criado no sistema é automaticamente o **administrador**, com privilégios totais:
+O primeiro usuário criado no sistema é automaticamente o **administrador**, com os seguintes privilégios:
 - ✅ Acessar a tela de **gerenciamento de permissões**.
 - ✅ Realizar operações **CRUD** (Criar, Ler, Atualizar, Deletar) em usuários.
 
@@ -19,6 +19,11 @@ Os usuários criados pelo administrador são considerados **usuários comuns**, 
 ---
 
 ## 💻 Como Rodar o Projeto
+
+### **Clone o projeto na sua máquina**
+```bash
+git clone https://github.com/NlsGAA/sistema-login.git
+```
 
 ### **Passo 1: Baixar as Dependências**
 
@@ -41,12 +46,7 @@ docker-compose up -d
 
 #### 2.2. Configure as variáveis de ambiente no arquivo .env
 ```bash
-DB_CONNECTION=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=nome_do_banco
-DB_USERNAME=root
-DB_PASSWORD=sua_senha
+cp .env.example .env
 ```
 
 
@@ -55,20 +55,25 @@ DB_PASSWORD=sua_senha
 php artisan migrate
 ```
 
-### **Passo 4: Iniciar o Servidor**
+### **Passo 3: Iniciar o Servidor**
 
-#### O primeiro usuário será automaticamente o administrador:
-
-
-### **Passo 3: Criar o Primeiro Usuário (Administrador)**
-
-#### Inicie o servidor do Laravel
 ```bash
 php artisan serve
 ```
 
 ### **🌐 Rotas do Sistema**
 As rotas do sistema podem ser acessadas via URL, utilizando o host http://127.0.0.1:8000/ seguido do nome da rota:
+
+/
+Tela de login do sistema
+
+/register
+Tela de cadastro para o primeiro usuário
+(caso outros usuários, além do primeiro tente se registrar nessa rota, automaticamente será dado como usuário comum)
+
+/permissions
+Tela de gerenciamento de usuários (CRUD)
+Somente Administrador
 
 /product-management
 Tela de gerenciamento de produtos
@@ -78,7 +83,3 @@ Tela de gerenciamento de categorias
 
 /brand-management
 Tela de gerenciamento de marcas
-
-/permissions
-Tela de gerenciamento de usuários (CRUD)
-Somente Administrador

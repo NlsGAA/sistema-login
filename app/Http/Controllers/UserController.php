@@ -44,7 +44,7 @@ class UserController extends Controller
                 'message' => $e->getMessage()
             ];
 
-            return view('permissions', compact(var_name: 'err'));
+            return view('permissions', compact('err', 'users'));
         }
         
         return view('permissions', compact('users'));
@@ -67,7 +67,7 @@ class UserController extends Controller
                 'message' => $e->getMessage()
             ];
 
-            return view('register', compact(var_name: 'err'));
+            return view('register', compact('err'));
         }
 
         return view('login');
@@ -90,14 +90,16 @@ class UserController extends Controller
                 'message' => $e->getMessage()
             ];
 
-            return view('login', compact(var_name: 'err'));
+            return view('login', compact('err'));
         }
 
         if(!$isUserAuthenticate) {
-            return response()->json([
+            $err = [
                 'status'  => 'error',
-                'message' => 'Usuário ou senha inválidos'
-            ], 400);
+                'message' => 'Erro inesperado, nossos engenheiros já estão trabalhando nisso!'
+            ];
+
+            return view('login', compact('err'));
         }
 
         return redirect()->route('index');
@@ -128,7 +130,7 @@ class UserController extends Controller
                     'message' => 'Você precisa selecionar pelo menos uma permissão'
                 ];
 
-                return view('permissions', compact(var_name: 'err'));
+                return view('permissions', compact('err'));
             }
 
             $payload = $request->validate([
