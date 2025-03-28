@@ -23,6 +23,11 @@ Os usuários criados pelo administrador são considerados **usuários comuns**, 
 
 #### Você irá precisar ter instalado o php/laravel nas últimas versões e também ter o docker para iniciar o banco
 
+### **Clone o projeto na sua máquina:**
+```bash
+git clone https://github.com/NlsGAA/sistema-login.git
+```
+
 ### **Passo 1: Baixar as Dependências**
 
 #### 1.1. Instale as dependências PHP com o Composer:
