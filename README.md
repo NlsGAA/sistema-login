@@ -1,13 +1,13 @@
 # 🚀 Sistema de Gerenciamento de Permissões
 
-Este é um sistema de gerenciamento de permissões onde o **primeiro usuário criado** se torna o **administrador** do sistema, e os usuários subsequentes têm permissões limitadas. O administrador tem acesso completo ao sistema, podendo gerenciar usuários e permissões, enquanto os usuários comuns têm acesso restrito a determinadas funcionalidades.
+Este é um sistema de gerenciamento de permissões onde o **primeiro usuário criado** se torna o **administrador** do sistema, e os usuários subsequentes têm permissões limitadas. O administrador tem acesso para gerenciar usuários e permissões, enquanto os usuários comuns têm acesso restrito a determinadas funcionalidades.
 
 ---
 
 ## ⭐ Funcionalidades
 
 ### **Administrador**
-O primeiro usuário criado no sistema é automaticamente o **administrador**, com privilégios totais:
+O primeiro usuário criado no sistema é automaticamente o **administrador**, com os seguintes privilégios:
 - ✅ Acessar a tela de **gerenciamento de permissões**.
 - ✅ Realizar operações **CRUD** (Criar, Ler, Atualizar, Deletar) em usuários.
 
@@ -15,6 +15,7 @@ O primeiro usuário criado no sistema é automaticamente o **administrador**, co
 Os usuários criados pelo administrador são considerados **usuários comuns**, com acesso limitado às seguintes funcionalidades:
 - 🔐 Acessar as telas de **Product Management**, **Category Management**, e **Brand Management**.
 - Essas telas estão protegidas por permissões específicas, com acesso controlado pelo middleware `can`.
+- O administrador deve permitir o acesso das rotas através da url /permissions.
 
 ---
 
@@ -62,21 +63,21 @@ php artisan serve
 As rotas do sistema podem ser acessadas via URL, utilizando o host http://127.0.0.1:8000/ seguido do nome da rota:
 
 /
-Tela de login do usuário
+- Tela de login do usuário
 
 /register
-Tela de cadastro de usuários
-(O primeiro usuário sempre será o administrado, caso outros usuários se cadastrem por essa rota, automaticamente será usuário comum)
+- Tela de cadastro de usuários
+- (O primeiro usuário sempre será o administrado, caso outros usuários se cadastrem por essa rota, automaticamente será usuário comum)
 
 /permissions
-Tela de gerenciamento de usuários (CRUD)
-(Somente Administrador, essa tela exibe todos os usuários comuns e permite gerenciar os mesmos).
+- Tela de gerenciamento de usuários (CRUD)
+- (Somente Administrador, essa tela exibe todos os usuários comuns e permite gerenciar os mesmos).
 
 /product-management
-Tela de gerenciamento de produtos
+- Tela de gerenciamento de produtos
 
 /category-management
-Tela de gerenciamento de categorias
+- Tela de gerenciamento de categorias
 
 /brand-management
-Tela de gerenciamento de marcas
+- Tela de gerenciamento de marcas
