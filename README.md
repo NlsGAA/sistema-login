@@ -20,6 +20,8 @@ Os usuários criados pelo administrador são considerados **usuários comuns**, 
 
 ## 💻 Como Rodar o Projeto
 
+#### Você irá precisar ter instalado o php/laravel nas últimas versões e também ter o docker para iniciar o banco
+
 ### **Passo 1: Baixar as Dependências**
 
 #### 1.1. Instale as dependências PHP com o Composer:
@@ -27,40 +29,29 @@ Os usuários criados pelo administrador são considerados **usuários comuns**, 
 composer install
 ```
 
-#### 1.2. Instale as dependências do frontend com o npm:
-```bash
-npm install
-```
-
 ### **Passo 2: Configurar o Banco de Dados**
 
 #### 2.1. Inicie o banco de dados utilizando o Docker:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 #### 2.2. Configure as variáveis de ambiente no arquivo .env
 ```bash
-DB_CONNECTION=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=nome_do_banco
-DB_USERNAME=root
-DB_PASSWORD=sua_senha
+cp .env.example .env
 ```
 
+#### 2.3. Limpe o cache das variaveis caso necessite
+```bash
+php artisan optimize
+```
 
-#### 2.3. Execute as migrations para criar as tabelas no banco de dados:
+#### 2.4. Execute as migrations para criar as tabelas no banco de dados:
 ```bash
 php artisan migrate
 ```
 
-### **Passo 4: Iniciar o Servidor**
-
-#### O primeiro usuário será automaticamente o administrador:
-
-
-### **Passo 3: Criar o Primeiro Usuário (Administrador)**
+### **Passo 3: Inicie o servidor**
 
 #### Inicie o servidor do Laravel
 ```bash
@@ -70,6 +61,17 @@ php artisan serve
 ### **🌐 Rotas do Sistema**
 As rotas do sistema podem ser acessadas via URL, utilizando o host http://127.0.0.1:8000/ seguido do nome da rota:
 
+/
+Tela de login do usuário
+
+/register
+Tela de cadastro de usuários
+(O primeiro usuário sempre será o administrado, caso outros usuários se cadastrem por essa rota, automaticamente será usuário comum)
+
+/permissions
+Tela de gerenciamento de usuários (CRUD)
+(Somente Administrador, essa tela exibe todos os usuários comuns e permite gerenciar os mesmos).
+
 /product-management
 Tela de gerenciamento de produtos
 
@@ -78,7 +80,3 @@ Tela de gerenciamento de categorias
 
 /brand-management
 Tela de gerenciamento de marcas
-
-/permissions
-Tela de gerenciamento de usuários (CRUD)
-Somente Administrador

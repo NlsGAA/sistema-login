@@ -159,8 +159,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -333,7 +333,7 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\app/private',
+        'root' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\app/private',
         'serve' => true,
         'throw' => false,
         'report' => false,
@@ -341,7 +341,7 @@
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\app/public',
+        'root' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -363,7 +363,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\public\\storage' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\app/public',
+      'C:\\Users\\Nico\\Documents\\testes\\permission\\public\\storage' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\app/public',
     ),
   ),
   'logging' => 
@@ -388,14 +388,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -460,7 +460,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -536,7 +536,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\Nico\\Documents\\testes\\permission\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -631,7 +631,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -758,9 +758,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\resources\\views',
+      0 => 'C:\\Users\\Nico\\Documents\\testes\\permission\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\Nico\\Documents\\Programação\\testes\\permission\\storage\\framework\\views',
+    'compiled' => 'C:\\Users\\Nico\\Documents\\testes\\permission\\storage\\framework\\views',
   ),
   'tinker' => 
   array (

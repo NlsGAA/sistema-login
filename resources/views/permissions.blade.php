@@ -14,56 +14,61 @@
             <button class="btn-add-user" onclick="openModal()">NOVO+</button>
         </div>
 
-        @foreach ($users as $user)
-            <div class="user-card">
-                <div class="user-info">
-                    <h2>{{ $user['name'] }}</h2>
-                    <span>{{ $user['email'] }}</span>
-                </div>
-
-                <button class="collapse-btn" onclick="togglePermissions({{ $user['id'] }})">
-                    Ver Permissões
-                </button>
-
-                @if(isset($err))
-                    <div style="color: red">
-                        {{ $err['message'] }}
+        @if(!isset($users) || count($users) == 0)
+            <span>Você ainda não possui nenhum usuário cadastrado</span>
+        @else
+            <span>Usuários:</span>
+            @foreach ($users as $user)
+                <div class="user-card">
+                    <div class="user-info">
+                        <h2>{{ $user['name'] }}</h2>
+                        <span>{{ $user['email'] }}</span>
                     </div>
-                @endif
 
-                <form 
-                    action="{{ route('delete-user', $user['id']) }}"
-                    method="POST"
-                    onsubmit="return confirm('Tem certeza que deseja excluir este usuário?')"
-                >
-                    @csrf
-                    @method('DELETE')
-                    
-                    <button type="submit" class="collapse-btn" style="background: red">
-                        Deletar usuário
+                    <button class="collapse-btn" onclick="togglePermissions({{ $user['id'] }})">
+                        Ver Permissões
                     </button>
-                </form>
-                
-                <div class="permissions-container" id="permissions-{{ $user['id'] }}">
-                    <fieldset disabled style="border: none">
-                        <form action="{{ route('toggle-permissions') }}" method="POST">
-                            <input type="hidden" name="user_id" value="{{ $user['id'] }}" />
-                            @csrf
-                            <ul class="permissions-list">
-                                @foreach ($user['permissions'] as $permission)
-                                    <li class="permission-item">
-                                        <input type="checkbox" id="permission-{{ $permission['permission_name'] }}" name="permissions[]" value="{{ $permission['id'] }}" {{ $permission['has_permission'] ? 'checked' : '' }}>
-                                        <label for="permission-{{ $permission['permission_name'] }}">{{ $permission['permission_name'] }}</label>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <button>Salvar Permissões</button>
-                        </form>
-                    </fieldset>
-                    <button id="edit-permissions">Editar Permissões</button>
+
+                    @if(isset($err))
+                        <div style="color: red">
+                            {{ $err['message'] }}
+                        </div>
+                    @endif
+
+                    <form 
+                        action="{{ route('delete-user', $user['id']) }}"
+                        method="POST"
+                        onsubmit="return confirm('Tem certeza que deseja excluir este usuário?')"
+                    >
+                        @csrf
+                        @method('DELETE')
+                        
+                        <button type="submit" class="collapse-btn" style="background: red">
+                            Deletar usuário
+                        </button>
+                    </form>
+                    
+                    <div class="permissions-container" id="permissions-{{ $user['id'] }}">
+                        <fieldset disabled style="border: none">
+                            <form action="{{ route('toggle-permissions') }}" method="POST">
+                                <input type="hidden" name="user_id" value="{{ $user['id'] }}" />
+                                @csrf
+                                <ul class="permissions-list">
+                                    @foreach ($user['permissions'] as $permission)
+                                        <li class="permission-item">
+                                            <input type="checkbox" id="permission-{{ $permission['permission_name'] }}" name="permissions[]" value="{{ $permission['id'] }}" {{ $permission['has_permission'] ? 'checked' : '' }}>
+                                            <label for="permission-{{ $permission['permission_name'] }}">{{ $permission['permission_name'] }}</label>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <button>Salvar Permissões</button>
+                            </form>
+                        </fieldset>
+                        <button id="edit-permissions">Editar Permissões</button>
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        @endif
     </div>
 
     <div class="modal" id="modal" tabindex="-1" role="dialog" style="display: none;">
